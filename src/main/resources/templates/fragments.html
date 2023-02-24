@@ -1,0 +1,94 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="headerfiles">
+<meta charset="UTF-8" />
+<link th:href="@{/css/styles.css}" rel="stylesheet">
+</head>
+<body>
+    <div th:fragment="html">
+      <html   xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+    </div>
+    <div th:fragment="header">
+        <header class="p-3 bg-dark text-white">
+            <div class="container">
+              <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <ul class="nav col-8 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                  <li class="nav-link px-10 text-white" >CSCB025-LogisticCompany</li>
+                  <li class="nav-link px-10 text-white" >Student: Кует Хъу Нгуен</li>
+                  <li class="nav-link px-10 text-white" >FN: 89497</li>
+                </ul>
+                <ul class="nav col-3">
+                  <div sec:authorize="isAuthenticated()">
+                    Welcome <b><span sec:authentication="name">Username</span></b>
+                    &nbsp;
+                    <i><span sec:authentication="principal.authorities">Roles</span></i>
+                  </div>
+                </ul>
+                <ul class="nav col-1">
+                  <form th:action="@{/logout}" method="post">
+                    <input type="submit" value="Logout" />
+                  </form>
+                </ul>
+              </div>
+            </div>
+          </header>
+    </div>
+    <div th:fragment="aside" class="container-fluid">
+        <div class="row">
+          <nav id="sidebarMenu" class="col-lg d-md-block sidebar bg-light">
+            <div class="position-sticky pt-3">
+              <ul class="nav flex-column">
+                <li class="nav-item">
+                  <div sec:authorize="hasAnyAuthority('EMPLOYEE', 'ADMIN')">
+                    <a class="nav-link" th:href="@{/customers}">
+                      Customers
+                    </a>
+                  </div>
+                  <div sec:authorize="hasAnyAuthority('CUSTOMER')">
+                    <a class="nav-link" th:href="@{/customer/{username}(username=${#authentication.name})}">
+                      Customer
+                    </a>
+                  </div>
+                </li>
+                <li class="nav-item">
+                  <div sec:authorize="hasAnyAuthority('ADMIN')">
+                    <a class="nav-link" th:href="@{/employees}">
+                      Employees
+                    </a>
+                  </div>
+                  <div sec:authorize="hasAnyAuthority('EMPLOYEE')">
+                    <a class="nav-link" th:href="@{/employee/{username}(username=${#authentication.name})}">
+                      Employee
+                    </a>
+                  </div>
+                </li>
+                <li class="nav-item">
+                  <div sec:authorize="hasAnyAuthority('ADMIN')">
+                    <a class="nav-link" th:href="@{/offices}">
+                      Offices
+                    </a>
+                  </div>
+                </li>
+                <li class="nav-item">
+                  <div sec:authorize="hasAnyAuthority('ADMIN','EMPLOYEE')">
+                    <a class="nav-link" th:href="@{/shipments}">
+                      Shipments
+                    </a>
+                  </div>
+                  <div sec:authorize="hasAnyAuthority('CUSTOMER')">
+                    <a class="nav-link" th:href="@{/customer/shipment/{username}(username=${#authentication.name})}">
+                      Shipments
+                    </a>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </nav>
+        </div>
+      </div>
+    <div class="another">This is another sidebar</div>
+    <footer >
+    </footer>
+</body>
+</html>
